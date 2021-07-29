@@ -1,4 +1,4 @@
-const obstaclesArray = [];
+let obstaclesArray = [];
 
 class Obstacle {
     constructor() {

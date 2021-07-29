@@ -1,4 +1,4 @@
-const particlesArray = [];
+let particlesArray = [];
 
 class Particle {
     constructor() {

@@ -9,6 +9,29 @@ let hue = 0;
 let frame = 0;
 let score = 0;
 let gameSpeed = 2;
+let gameOver = false;
+
+const replayBtn = document.getElementById("replay");
+replayBtn.addEventListener("click", () => {
+    console.log("clicked");
+    restart();
+    replayBtn.classList.add("hidden");
+
+})
+
+function restart() {
+    spacePressed = false;
+    angle = 0;
+    hue = 0;
+    frame = 0;
+    score = 0;
+    gameSpeed = 2;
+    gameOver = false;
+    bird = new Bird();
+    particlesArray = [];
+    obstaclesArray = [];
+    animate();
+}
 
 const gradient = ctx.createLinearGradient(0, 0, 0, 70);
 gradient.addColorStop('0.4','#fff');
@@ -45,6 +68,12 @@ function handleBackground() {
     ctx.drawImage(background, BG.x2, BG.y, BG.width, BG.height);
 }
 
+function handleGameOver() {
+    gameOver = true;
+    replayBtn.classList.remove("hidden");
+
+}
+
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     //ctx.fillRect(10, canvas.height - 90, 50, 50);
@@ -57,9 +86,11 @@ function animate() {
     ctx.strokeText(score, 450, 70);
     ctx.fillText(score, 450, 70);
     handleCollisions();
-    if(handleCollisions()) return;
+    if(handleCollisions()) {
+        handleGameOver();
+    }
     handleParticles();
-    requestAnimationFrame(animate);
+    if(!gameOver) requestAnimationFrame(animate);
     angle+=0.12;
     hue++;
     frame++;

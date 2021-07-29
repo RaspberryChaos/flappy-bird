@@ -50,4 +50,4 @@ class Bird {
     }
 }
 
-const bird = new Bird();
+let bird = new Bird();
