@@ -10,6 +10,7 @@ let frame = 0;
 let score = 0;
 let gameSpeed = 2;
 let gameOver = false;
+let highScore = 0;
 
 const replayBtn = document.getElementById("replay");
 replayBtn.addEventListener("click", () => {
@@ -71,7 +72,19 @@ function handleBackground() {
 function handleGameOver() {
     gameOver = true;
     replayBtn.classList.remove("hidden");
+}
 
+function writeScore() {
+    ctx.fillStyle = gradient;
+    ctx.font = "90px Georgia";
+    ctx.strokeText(score, 450, 70);
+    ctx.fillText(score, 450, 70);
+}
+
+function writeHighScore() {
+    ctx.fillStyle = "white";
+    ctx.font = "20px Georgia";
+    ctx.fillText(`Your high score is: ${highScore}`, 10, 20);
 }
 
 function animate() {
@@ -81,10 +94,9 @@ function animate() {
     handleObstacles();
     bird.update();
     bird.draw();
-    ctx.fillStyle = gradient;
-    ctx.font = "90px Georgia";
-    ctx.strokeText(score, 450, 70);
-    ctx.fillText(score, 450, 70);
+    if(score > highScore) highScore = score;
+    writeScore();
+    writeHighScore();
     handleCollisions();
     if(handleCollisions()) {
         handleGameOver();
@@ -122,6 +134,9 @@ function handleCollisions() {
                 ctx.font = "25px Georgia";
                 ctx.fillStyle = "white";
                 ctx.fillText(`Game Over, your score is ${score}`, 160, canvas.height/2 -10);
+                if(score === highScore) {
+                    ctx.fillText(`New High Score!`, 160, canvas.height/2 +20); 
+                }
                 return true;
             }
     }
